@@ -24,8 +24,8 @@ type StudentData struct {
 }
 
 // ETDWorkFromBytes will create an ETDWork from a byte array
-func ETDWorkFromBytes(bytes []byte) (*EDTWork, error) {
-	var etdWork EDTWork
+func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
+	var etdWork ETDWork
 	err := json.Unmarshal(bytes, &etdWork)
 	if err != nil {
 		return nil, err
@@ -33,8 +33,8 @@ func ETDWorkFromBytes(bytes []byte) (*EDTWork, error) {
 	return &etdWork, nil
 }
 
-// EDTWork contains libra metadata for ETD works
-type EDTWork struct {
+// ETDWork contains libra metadata for ETD works
+type ETDWork struct {
 	Degree      string            `json:"degree"`
 	Visibility  string            `json:"visibility"`
 	Title       string            `json:"title"`
@@ -52,23 +52,23 @@ type EDTWork struct {
 }
 
 // MimeType gets the mime type of ETD metadata
-func (oa EDTWork) MimeType() string {
+func (etd ETDWork) MimeType() string {
 	return "application/json"
 }
 
 // Payload gets the encoded binary representation of ETD metadata
-func (oa EDTWork) Payload() ([]byte, error) {
-	return json.Marshal(oa)
+func (etd ETDWork) Payload() ([]byte, error) {
+	return json.Marshal(etd)
 }
 
 // Created gets date when the OpenAccess metadata was created in easystore
-func (oa EDTWork) Created() time.Time {
-	return oa.CreatedAt
+func (etd ETDWork) Created() time.Time {
+	return etd.CreatedAt
 }
 
 // Modified gets last modification date of the ETD metadata
-func (oa EDTWork) Modified() time.Time {
-	return oa.ModifiedAt
+func (etd ETDWork) Modified() time.Time {
+	return etd.ModifiedAt
 }
 
 // OAWorkFromBytes will create an OAWork from a byte array
