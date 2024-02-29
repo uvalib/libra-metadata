@@ -47,32 +47,27 @@ type EDTWork struct {
 	RelatedURLs []string          `json:"relatedURLs"`
 	Sponsors    []string          `json:"sponsors"`
 	Notes       string            `json:"notes"`
-}
-
-// EasyStoreETD is a wrapper around ETD data that returns the metadata in a storage format
-type EasyStoreETD struct {
-	JSONData   EDTWork
-	CreatedAt  time.Time
-	ModifiedAt time.Time
+	CreatedAt   time.Time         `json:"createdAt"`
+	ModifiedAt  time.Time         `json:"modifiedAt"`
 }
 
 // MimeType gets the mime type of ETD metadata
-func (oa EasyStoreETD) MimeType() string {
+func (oa EDTWork) MimeType() string {
 	return "application/json"
 }
 
 // Payload gets the encoded binary representation of ETD metadata
-func (oa EasyStoreETD) Payload() ([]byte, error) {
-	return json.Marshal(oa.JSONData)
+func (oa EDTWork) Payload() ([]byte, error) {
+	return json.Marshal(oa)
 }
 
 // Created gets date when the OpenAccess metadata was created in easystore
-func (oa EasyStoreETD) Created() time.Time {
+func (oa EDTWork) Created() time.Time {
 	return oa.CreatedAt
 }
 
 // Modified gets last modification date of the ETD metadata
-func (oa EasyStoreETD) Modified() time.Time {
+func (oa EDTWork) Modified() time.Time {
 	return oa.ModifiedAt
 }
 
@@ -103,31 +98,26 @@ type OAWork struct {
 	RelatedURLs      []string          `json:"relatedURLs"`
 	Sponsors         []string          `json:"sponsors"`
 	Notes            string            `json:"notes"`
-}
-
-// EasyStoreOA is a wrapper around OpenAccess data that returns the metadata in a storage format
-type EasyStoreOA struct {
-	JSONData   OAWork
-	CreatedAt  time.Time
-	ModifiedAt time.Time
+	CreatedAt        time.Time         `json:"createdAt"`
+	ModifiedAt       time.Time         `json:"modifiedAt"`
 }
 
 // MimeType gets the mime type of openAccess metadata
-func (oa EasyStoreOA) MimeType() string {
+func (oa OAWork) MimeType() string {
 	return "application/json"
 }
 
 // Payload gets the encoded binary representation of OpenAccess metadata
-func (oa EasyStoreOA) Payload() ([]byte, error) {
-	return json.Marshal(oa.JSONData)
+func (oa OAWork) Payload() ([]byte, error) {
+	return json.Marshal(oa)
 }
 
 // Created gets date when the OpenAccess metadata was created in easystore
-func (oa EasyStoreOA) Created() time.Time {
+func (oa OAWork) Created() time.Time {
 	return oa.CreatedAt
 }
 
 // Modified gets last modification date of the OpenAccess metadata
-func (oa EasyStoreOA) Modified() time.Time {
+func (oa OAWork) Modified() time.Time {
 	return oa.ModifiedAt
 }
