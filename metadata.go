@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// AuthorData contains libra metadata for authors and contributors
-type AuthorData struct {
+// ContributorData contains libra metadata for authors, contributors or advisors
+type ContributorData struct {
 	ComputeID   string `json:"computeID"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
@@ -14,48 +14,100 @@ type AuthorData struct {
 	Institution string `json:"institution"`
 }
 
-// OADepositData contsins libra metadata for openAccess submissions
-type OADepositData struct {
-	Visibility       string       `json:"visibility"`
-	ResourceType     string       `json:"resourceType"`
-	Title            string       `json:"title"`
-	Authors          []AuthorData `json:"authors"`
-	Abstract         string       `json:"abstract"`
-	License          string       `json:"license"`
-	Languages        []string     `json:"languages"`
-	Keywords         []string     `json:"keywords"`
-	Contributors     []AuthorData `json:"contributors"`
-	Publisher        string       `json:"publisher"`
-	Citation         string       `json:"citation"`
-	PubllicationData string       `json:"pubDate"`
-	RelatedURLs      []string     `json:"relatedURLs"`
-	Sponsors         []string     `json:"sponsors"`
-	Notes            string       `json:"notes"`
+// StudentData contains libra metadata for student authors
+type StudentData struct {
+	ComputeID   string `json:"computeID"`
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
+	Program     string `json:"program"`
+	Institution string `json:"institution"`
 }
 
-// EasyStoreOAWrapper is a wrapper around OpenAccess data that returns the metadata in a storage format
-type EasyStoreOAWrapper struct {
+// ETDDepositData contains libra metadata for ETD submissions
+type ETDDepositData struct {
+	Degree      string            `json:"degree"`
+	Visibility  string            `json:"visibility"`
+	Title       string            `json:"title"`
+	Author      StudentData       `json:"author"`
+	Advisors    []ContributorData `json:"advisors"`
+	Abstract    string            `json:"abstract"`
+	License     string            `json:"license"`
+	Keywords    []string          `json:"keywords"`
+	Language    string            `json:"language"`
+	RelatedURLs []string          `json:"relatedURLs"`
+	Sponsors    []string          `json:"sponsors"`
+	Notes       string            `json:"notes"`
+}
+
+// EasyStoreETD is a wrapper around ETD data that returns the metadata in a storage format
+type EasyStoreETD struct {
+	JSONData   ETDDepositData
+	CreatedAt  time.Time
+	ModifiedAt time.Time
+}
+
+// MimeType gets the mime type of ETD metadata
+func (oa EasyStoreETD) MimeType() string {
+	return "application/json"
+}
+
+// Payload gets the encoded binary representation of ETD metadata
+func (oa EasyStoreETD) Payload() ([]byte, error) {
+	return json.Marshal(oa.JSONData)
+}
+
+// Created gets date when the OpenAccess metadata was created in easystore
+func (oa EasyStoreETD) Created() time.Time {
+	return oa.CreatedAt
+}
+
+// Modified gets last modification date of the ETD metadata
+func (oa EasyStoreETD) Modified() time.Time {
+	return oa.ModifiedAt
+}
+
+// OADepositData contains libra metadata for openAccess submissions
+type OADepositData struct {
+	Visibility       string            `json:"visibility"`
+	ResourceType     string            `json:"resourceType"`
+	Title            string            `json:"title"`
+	Authors          []ContributorData `json:"authors"`
+	Abstract         string            `json:"abstract"`
+	License          string            `json:"license"`
+	Languages        []string          `json:"languages"`
+	Keywords         []string          `json:"keywords"`
+	Contributors     []ContributorData `json:"contributors"`
+	Publisher        string            `json:"publisher"`
+	Citation         string            `json:"citation"`
+	PubllicationData string            `json:"pubDate"`
+	RelatedURLs      []string          `json:"relatedURLs"`
+	Sponsors         []string          `json:"sponsors"`
+	Notes            string            `json:"notes"`
+}
+
+// EasyStoreOA is a wrapper around OpenAccess data that returns the metadata in a storage format
+type EasyStoreOA struct {
 	JSONData   OADepositData
 	CreatedAt  time.Time
 	ModifiedAt time.Time
 }
 
 // MimeType gets the mime type of openAccess metadata
-func (oa EasyStoreOAWrapper) MimeType() string {
+func (oa EasyStoreOA) MimeType() string {
 	return "application/json"
 }
 
 // Payload gets the encoded binary representation of OpenAccess metadata
-func (oa EasyStoreOAWrapper) Payload() ([]byte, error) {
+func (oa EasyStoreOA) Payload() ([]byte, error) {
 	return json.Marshal(oa.JSONData)
 }
 
 // Created gets date when the OpenAccess metadata was created in easystore
-func (oa EasyStoreOAWrapper) Created() time.Time {
+func (oa EasyStoreOA) Created() time.Time {
 	return oa.CreatedAt
 }
 
 // Modified gets last modification date of the OpenAccess metadata
-func (oa EasyStoreOAWrapper) Modified() time.Time {
+func (oa EasyStoreOA) Modified() time.Time {
 	return oa.ModifiedAt
 }
