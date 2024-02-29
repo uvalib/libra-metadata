@@ -46,9 +46,8 @@ func (oa EasyStoreOAWrapper) MimeType() string {
 }
 
 // Payload gets the encoded binary representation of OpenAccess metadata
-func (oa EasyStoreOAWrapper) Payload() []byte {
-	out, _ := json.Marshal(oa.JSONData)
-	return out
+func (oa EasyStoreOAWrapper) Payload() ([]byte, error) {
+	return json.Marshal(oa.JSONData)
 }
 
 // Created gets date when the OpenAccess metadata was created in easystore
