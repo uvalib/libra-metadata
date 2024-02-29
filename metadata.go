@@ -1,4 +1,4 @@
-package libra
+package librametadata
 
 import (
 	"encoding/json"
