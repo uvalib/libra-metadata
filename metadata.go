@@ -5,7 +5,8 @@ import (
 	"time"
 )
 
-type authorData struct {
+// AuthorData contains libra metadata for authors and contributors
+type AuthorData struct {
 	ComputeID   string `json:"computeID"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
@@ -13,16 +14,17 @@ type authorData struct {
 	Institution string `json:"institution"`
 }
 
-type oaDepositData struct {
+// OADepositData contsins libra metadata for openAccess submissions
+type OADepositData struct {
 	Visibility       string       `json:"visibility"`
 	ResourceType     string       `json:"resourceType"`
 	Title            string       `json:"title"`
-	Authors          []authorData `json:"authors"`
+	Authors          []AuthorData `json:"authors"`
 	Abstract         string       `json:"abstract"`
 	License          string       `json:"license"`
 	Languages        []string     `json:"languages"`
 	Keywords         []string     `json:"keywords"`
-	Contributors     []authorData `json:"contributors"`
+	Contributors     []AuthorData `json:"contributors"`
 	Publisher        string       `json:"publisher"`
 	Citation         string       `json:"citation"`
 	PubllicationData string       `json:"pubDate"`
@@ -31,25 +33,30 @@ type oaDepositData struct {
 	Notes            string       `json:"notes"`
 }
 
-type easystoreOAWrapper struct {
-	JSONData   oaDepositData
+// EasyStoreOAWrapper is a wrapper around OpenAccess data that returns the metadata in a storage format
+type EasyStoreOAWrapper struct {
+	JSONData   OADepositData
 	CreatedAt  time.Time
 	ModifiedAt time.Time
 }
 
-func (oa easystoreOAWrapper) MimeType() string {
+// MimeType gets the mime type of openAccess metadata
+func (oa EasyStoreOAWrapper) MimeType() string {
 	return "application/json"
 }
 
-func (oa easystoreOAWrapper) Payload() []byte {
+// Payload gets the encoded binary representation of OpenAccess metadata
+func (oa EasyStoreOAWrapper) Payload() []byte {
 	out, _ := json.Marshal(oa.JSONData)
 	return out
 }
 
-func (oa easystoreOAWrapper) Created() time.Time {
+// Created gets date when the OpenAccess metadata was created in easystore
+func (oa EasyStoreOAWrapper) Created() time.Time {
 	return oa.CreatedAt
 }
 
-func (oa easystoreOAWrapper) Modified() time.Time {
+// Modified gets last modification date of the OpenAccess metadata
+func (oa EasyStoreOAWrapper) Modified() time.Time {
 	return oa.ModifiedAt
 }
