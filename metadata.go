@@ -23,8 +23,18 @@ type StudentData struct {
 	Institution string `json:"institution"`
 }
 
-// ETDDepositData contains libra metadata for ETD submissions
-type ETDDepositData struct {
+// ETDWorkFromBytes will create an ETDWork from a byte array
+func ETDWorkFromBytes(bytes []byte) (*EDTWork, error) {
+	var etdWork EDTWork
+	err := json.Unmarshal(bytes, &etdWork)
+	if err != nil {
+		return nil, err
+	}
+	return &etdWork, nil
+}
+
+// EDTWork contains libra metadata for ETD works
+type EDTWork struct {
 	Degree      string            `json:"degree"`
 	Visibility  string            `json:"visibility"`
 	Title       string            `json:"title"`
@@ -41,7 +51,7 @@ type ETDDepositData struct {
 
 // EasyStoreETD is a wrapper around ETD data that returns the metadata in a storage format
 type EasyStoreETD struct {
-	JSONData   ETDDepositData
+	JSONData   EDTWork
 	CreatedAt  time.Time
 	ModifiedAt time.Time
 }
@@ -66,8 +76,18 @@ func (oa EasyStoreETD) Modified() time.Time {
 	return oa.ModifiedAt
 }
 
-// OADepositData contains libra metadata for openAccess submissions
-type OADepositData struct {
+// OAWorkFromBytes will create an OAWork from a byte array
+func OAWorkFromBytes(bytes []byte) (*OAWork, error) {
+	var oaWork OAWork
+	err := json.Unmarshal(bytes, &oaWork)
+	if err != nil {
+		return nil, err
+	}
+	return &oaWork, nil
+}
+
+// OAWork contains libra metadata for openAccess works
+type OAWork struct {
 	Visibility       string            `json:"visibility"`
 	ResourceType     string            `json:"resourceType"`
 	Title            string            `json:"title"`
@@ -87,7 +107,7 @@ type OADepositData struct {
 
 // EasyStoreOA is a wrapper around OpenAccess data that returns the metadata in a storage format
 type EasyStoreOA struct {
-	JSONData   OADepositData
+	JSONData   OAWork
 	CreatedAt  time.Time
 	ModifiedAt time.Time
 }
