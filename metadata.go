@@ -47,8 +47,6 @@ type ETDWork struct {
 	RelatedURLs []string          `json:"relatedURLs"`
 	Sponsors    []string          `json:"sponsors"`
 	Notes       string            `json:"notes"`
-	CreatedAt   time.Time         `json:"createdAt"`
-	ModifiedAt  time.Time         `json:"modifiedAt"`
 }
 
 // MimeType gets the mime type of ETD metadata
@@ -61,14 +59,14 @@ func (etd ETDWork) Payload() ([]byte, error) {
 	return json.Marshal(etd)
 }
 
-// Created gets date when the OpenAccess metadata was created in easystore
+// Created gets date when the OpenAccess metadata was created in easystore.
 func (etd ETDWork) Created() time.Time {
-	return etd.CreatedAt
+	return time.Time{}
 }
 
 // Modified gets last modification date of the ETD metadata
 func (etd ETDWork) Modified() time.Time {
-	return etd.ModifiedAt
+	return time.Time{}
 }
 
 // OAWorkFromBytes will create an OAWork from a byte array
@@ -98,8 +96,6 @@ type OAWork struct {
 	RelatedURLs      []string          `json:"relatedURLs"`
 	Sponsors         []string          `json:"sponsors"`
 	Notes            string            `json:"notes"`
-	CreatedAt        time.Time         `json:"createdAt"`
-	ModifiedAt       time.Time         `json:"modifiedAt"`
 }
 
 // MimeType gets the mime type of openAccess metadata
@@ -114,10 +110,10 @@ func (oa OAWork) Payload() ([]byte, error) {
 
 // Created gets date when the OpenAccess metadata was created in easystore
 func (oa OAWork) Created() time.Time {
-	return oa.CreatedAt
+	return time.Time{}
 }
 
 // Modified gets last modification date of the OpenAccess metadata
 func (oa OAWork) Modified() time.Time {
-	return oa.ModifiedAt
+	return time.Time{}
 }
