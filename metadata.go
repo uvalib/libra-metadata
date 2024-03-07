@@ -23,6 +23,14 @@ type StudentData struct {
 	Institution string `json:"institution"`
 }
 
+// FileData describes a file submitted to libra
+type FileData struct {
+	ID       string `json:"id"`
+	MimeType string `json:"mimeType"`
+	Name     string `json:"name"`
+	// TODO more fields... URL ? Stream? Payload?
+}
+
 // ETDWorkFromBytes will create an ETDWork from a byte array
 func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 	var etdWork ETDWork
