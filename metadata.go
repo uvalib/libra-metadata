@@ -25,7 +25,6 @@ type StudentData struct {
 
 // FileData describes a file submitted to libra
 type FileData struct {
-	ID        string    `json:"id"`
 	MimeType  string    `json:"mimeType"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
