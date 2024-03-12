@@ -2,8 +2,19 @@ package librametadata
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 )
+
+// update this when an incompatible schema change is made
+var schemaVersion = "1"
+
+var ErrSchemaVersion = fmt.Errorf("incompatible schema versions, some data may be lost")
+
+// SchemaVersion mechanism to manage schema versioning
+type SchemaVersion struct {
+	Version string `json:"version"`
+}
 
 // ContributorData contains libra metadata for authors, contributors or advisors
 type ContributorData struct {
@@ -31,10 +42,28 @@ type FileData struct {
 	// TODO more fields... URL ? Stream? Payload?
 }
 
+// ETDStateInfo processing/workflow state information
+type ETDStateInfo struct {
+	Visibility     string    `json:"visibility"`
+	EmbargoType    string    `json:"embargoType"`
+	EmbargoRelease string    `json:"embargoRelease"`
+	EmailNotified  time.Time `json:"emailNotified"`
+	SISNotified    time.Time `json:"sisNotified"`
+}
+
 // ETDWorkFromBytes will create an ETDWork from a byte array
 func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
+	var schema SchemaVersion
+	err := json.Unmarshal(bytes, &schema)
+	if err != nil {
+		return nil, err
+	}
+	if schema.Version != schemaVersion {
+		return nil, ErrSchemaVersion
+	}
+
 	var etdWork ETDWork
-	err := json.Unmarshal(bytes, &etdWork)
+	err = json.Unmarshal(bytes, &etdWork)
 	if err != nil {
 		return nil, err
 	}
@@ -43,6 +72,7 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 
 // ETDWork contains libra metadata for ETD works
 type ETDWork struct {
+	SchemaVersion
 	Degree      string            `json:"degree"`
 	Visibility  string            `json:"visibility"`
 	Title       string            `json:"title"`
@@ -55,6 +85,7 @@ type ETDWork struct {
 	RelatedURLs []string          `json:"relatedURLs"`
 	Sponsors    []string          `json:"sponsors"`
 	Notes       string            `json:"notes"`
+	State       ETDStateInfo      `json:"state"`
 }
 
 // MimeType gets the mime type of ETD metadata
@@ -64,6 +95,7 @@ func (etd ETDWork) MimeType() string {
 
 // Payload gets the encoded binary representation of ETD metadata
 func (etd ETDWork) Payload() ([]byte, error) {
+	etd.SchemaVersion.Version = schemaVersion
 	return json.Marshal(etd)
 }
 
@@ -79,31 +111,49 @@ func (etd ETDWork) Modified() time.Time {
 
 // OAWorkFromBytes will create an OAWork from a byte array
 func OAWorkFromBytes(bytes []byte) (*OAWork, error) {
+	var schema SchemaVersion
+	err := json.Unmarshal(bytes, &schema)
+	if err != nil {
+		return nil, err
+	}
+	if schema.Version != schemaVersion {
+		return nil, ErrSchemaVersion
+	}
+
 	var oaWork OAWork
-	err := json.Unmarshal(bytes, &oaWork)
+	err = json.Unmarshal(bytes, &oaWork)
 	if err != nil {
 		return nil, err
 	}
 	return &oaWork, nil
 }
 
+// OAStateInfo processing/workflow state information
+type OAStateInfo struct {
+	EmbargoType    string    `json:"embargoType"`
+	EmbargoRelease string    `json:"embargoRelease"`
+	EmailNotified  time.Time `json:"emailNotified"`
+}
+
 // OAWork contains libra metadata for openAccess works
 type OAWork struct {
-	Visibility       string            `json:"visibility"`
-	ResourceType     string            `json:"resourceType"`
-	Title            string            `json:"title"`
-	Authors          []ContributorData `json:"authors"`
-	Abstract         string            `json:"abstract"`
-	License          string            `json:"license"`
-	Languages        []string          `json:"languages"`
-	Keywords         []string          `json:"keywords"`
-	Contributors     []ContributorData `json:"contributors"`
-	Publisher        string            `json:"publisher"`
-	Citation         string            `json:"citation"`
-	PubllicationData string            `json:"pubDate"`
-	RelatedURLs      []string          `json:"relatedURLs"`
-	Sponsors         []string          `json:"sponsors"`
-	Notes            string            `json:"notes"`
+	SchemaVersion
+	Visibility      string            `json:"visibility"`
+	ResourceType    string            `json:"resourceType"`
+	Title           string            `json:"title"`
+	Authors         []ContributorData `json:"authors"`
+	Abstract        string            `json:"abstract"`
+	License         string            `json:"license"`
+	Languages       []string          `json:"languages"`
+	Keywords        []string          `json:"keywords"`
+	Contributors    []ContributorData `json:"contributors"`
+	Publisher       string            `json:"publisher"`
+	Citation        string            `json:"citation"`
+	PublicationDate string            `json:"pubDate"`
+	RelatedURLs     []string          `json:"relatedURLs"`
+	Sponsors        []string          `json:"sponsors"`
+	Notes           string            `json:"notes"`
+	State           OAStateInfo       `json:"state"`
 }
 
 // MimeType gets the mime type of openAccess metadata
@@ -113,6 +163,7 @@ func (oa OAWork) MimeType() string {
 
 // Payload gets the encoded binary representation of OpenAccess metadata
 func (oa OAWork) Payload() ([]byte, error) {
+	oa.SchemaVersion.Version = schemaVersion
 	return json.Marshal(oa)
 }
 
