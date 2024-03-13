@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-// update this when an incompatible schema change is made
+// update this when an incompatible schema change is made.
+// note adding and removing fields maintains compatibility, renaming and retyping does not.
 var schemaVersion = "1"
 
 var ErrSchemaVersion = fmt.Errorf("incompatible schema versions, some data may be lost")
@@ -44,7 +45,6 @@ type FileData struct {
 
 // ETDStateInfo processing/workflow state information
 type ETDStateInfo struct {
-	Visibility     string    `json:"visibility"`
 	EmbargoType    string    `json:"embargoType"`
 	EmbargoRelease string    `json:"embargoRelease"`
 	EmailNotified  time.Time `json:"emailNotified"`
@@ -73,19 +73,20 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 // ETDWork contains libra metadata for ETD works
 type ETDWork struct {
 	SchemaVersion
-	Degree      string            `json:"degree"`
-	Visibility  string            `json:"visibility"`
-	Title       string            `json:"title"`
-	Author      StudentData       `json:"author"`
-	Advisors    []ContributorData `json:"advisors"`
-	Abstract    string            `json:"abstract"`
-	License     string            `json:"license"`
-	Keywords    []string          `json:"keywords"`
-	Language    string            `json:"language"`
-	RelatedURLs []string          `json:"relatedURLs"`
-	Sponsors    []string          `json:"sponsors"`
-	Notes       string            `json:"notes"`
-	State       ETDStateInfo      `json:"state"`
+	Visibility      string            `json:"visibility"`
+	Degree          string            `json:"degree"`
+	Title           string            `json:"title"`
+	Author          StudentData       `json:"author"`
+	Advisors        []ContributorData `json:"advisors"`
+	Abstract        string            `json:"abstract"`
+	License         string            `json:"license"`
+	Keywords        []string          `json:"keywords"`
+	Language        string            `json:"language"`
+	PublicationDate string            `json:"pubDate"`
+	RelatedURLs     []string          `json:"relatedURLs"`
+	Sponsors        []string          `json:"sponsors"`
+	Notes           string            `json:"notes"`
+	State           ETDStateInfo      `json:"state"`
 }
 
 // MimeType gets the mime type of ETD metadata
