@@ -43,14 +43,6 @@ type FileData struct {
 	// TODO more fields... URL ? Stream? Payload?
 }
 
-// ETDStateInfo processing/workflow state information
-type ETDStateInfo struct {
-	EmbargoType    string    `json:"embargoType"`
-	EmbargoRelease string    `json:"embargoRelease"`
-	EmailNotified  time.Time `json:"emailNotified"`
-	SISNotified    time.Time `json:"sisNotified"`
-}
-
 // ETDWorkFromBytes will create an ETDWork from a byte array
 func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 	var schema SchemaVersion
@@ -86,7 +78,6 @@ type ETDWork struct {
 	RelatedURLs     []string          `json:"relatedURLs"`
 	Sponsors        []string          `json:"sponsors"`
 	Notes           string            `json:"notes"`
-	State           ETDStateInfo      `json:"state"`
 }
 
 // MimeType gets the mime type of ETD metadata
@@ -129,13 +120,6 @@ func OAWorkFromBytes(bytes []byte) (*OAWork, error) {
 	return &oaWork, nil
 }
 
-// OAStateInfo processing/workflow state information
-type OAStateInfo struct {
-	EmbargoType    string    `json:"embargoType"`
-	EmbargoRelease string    `json:"embargoRelease"`
-	EmailNotified  time.Time `json:"emailNotified"`
-}
-
 // OAWork contains libra metadata for openAccess works
 type OAWork struct {
 	SchemaVersion
@@ -154,7 +138,6 @@ type OAWork struct {
 	RelatedURLs     []string          `json:"relatedURLs"`
 	Sponsors        []string          `json:"sponsors"`
 	Notes           string            `json:"notes"`
-	State           OAStateInfo       `json:"state"`
 }
 
 // MimeType gets the mime type of openAccess metadata
