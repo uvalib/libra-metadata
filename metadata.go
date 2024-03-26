@@ -10,6 +10,7 @@ import (
 // note adding and removing fields maintains compatibility, renaming and retyping does not.
 var schemaVersion = "1"
 
+// ErrSchemaVersion is the error that is thrown when there is a schema mismatch
 var ErrSchemaVersion = fmt.Errorf("incompatible schema versions, some data may be lost")
 
 // SchemaVersion mechanism to manage schema versioning
@@ -80,6 +81,11 @@ type ETDWork struct {
 	Notes           string            `json:"notes"`
 }
 
+// IsAuthor checks if the passed computeID is a work author
+func (etd ETDWork) IsAuthor(computeID string) bool {
+	return etd.Author.ComputeID == computeID
+}
+
 // MimeType gets the mime type of ETD metadata
 func (etd ETDWork) MimeType() string {
 	return "application/json"
@@ -138,6 +144,18 @@ type OAWork struct {
 	RelatedURLs     []string          `json:"relatedURLs"`
 	Sponsors        []string          `json:"sponsors"`
 	Notes           string            `json:"notes"`
+}
+
+// IsAuthor checks if the passed computeID is a work author
+func (oa OAWork) IsAuthor(computeID string) bool {
+	isAuthor := false
+	for _, author := range oa.Authors {
+		if author.ComputeID == computeID {
+			isAuthor = true
+			break
+		}
+	}
+	return isAuthor
 }
 
 // MimeType gets the mime type of openAccess metadata
