@@ -73,6 +73,7 @@ type ETDWork struct {
 	Advisors        []ContributorData `json:"advisors"`
 	Abstract        string            `json:"abstract"`
 	License         string            `json:"license"`
+	LicenseURL      string            `json:"licenseURL"`
 	Keywords        []string          `json:"keywords"`
 	Language        string            `json:"language"`
 	PublicationDate string            `json:"pubDate"`
@@ -135,6 +136,7 @@ type OAWork struct {
 	Authors         []ContributorData `json:"authors"`
 	Abstract        string            `json:"abstract"`
 	License         string            `json:"license"`
+	LicenseURL      string            `json:"licenseURL"`
 	Languages       []string          `json:"languages"`
 	Keywords        []string          `json:"keywords"`
 	Contributors    []ContributorData `json:"contributors"`
