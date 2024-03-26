@@ -66,7 +66,6 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 // ETDWork contains libra metadata for ETD works
 type ETDWork struct {
 	SchemaVersion
-	Visibility      string            `json:"visibility"`
 	Degree          string            `json:"degree"`
 	Title           string            `json:"title"`
 	Author          StudentData       `json:"author"`
@@ -130,7 +129,6 @@ func OAWorkFromBytes(bytes []byte) (*OAWork, error) {
 // OAWork contains libra metadata for openAccess works
 type OAWork struct {
 	SchemaVersion
-	Visibility      string            `json:"visibility"`
 	ResourceType    string            `json:"resourceType"`
 	Title           string            `json:"title"`
 	Authors         []ContributorData `json:"authors"`
