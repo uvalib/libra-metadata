@@ -25,6 +25,7 @@ type ContributorData struct {
 	LastName    string `json:"lastName"`
 	Department  string `json:"department"`
 	Institution string `json:"institution"`
+	ORCID       string `json:"orcid"`
 }
 
 // StudentData contains libra metadata for student authors
@@ -34,6 +35,7 @@ type StudentData struct {
 	LastName    string `json:"lastName"`
 	Program     string `json:"program"`
 	Institution string `json:"institution"`
+	ORCID       string `json:"orcid"`
 }
 
 // FileData describes a file submitted to libra
