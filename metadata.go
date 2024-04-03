@@ -18,22 +18,13 @@ type SchemaVersion struct {
 	Version string `json:"version"`
 }
 
-// ContributorData contains libra metadata for authors, contributors or advisors
+// ContributorData contains libra metadata for authors (student or otherwise), contributors or advisors
 type ContributorData struct {
 	ComputeID   string `json:"computeID"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
-	Department  string `json:"department"`
-	Institution string `json:"institution"`
-	ORCID       string `json:"orcid"`
-}
-
-// StudentData contains libra metadata for student authors
-type StudentData struct {
-	ComputeID   string `json:"computeID"`
-	FirstName   string `json:"firstName"`
-	LastName    string `json:"lastName"`
-	Program     string `json:"program"`
+	Department  string `json:"department,omitempty"`
+	Program     string `json:"program,omitempty"`
 	Institution string `json:"institution"`
 	ORCID       string `json:"orcid"`
 }
@@ -70,7 +61,7 @@ type ETDWork struct {
 	SchemaVersion
 	Degree          string            `json:"degree"`
 	Title           string            `json:"title"`
-	Author          StudentData       `json:"author"`
+	Author          ContributorData   `json:"author"`
 	Advisors        []ContributorData `json:"advisors"`
 	Abstract        string            `json:"abstract"`
 	License         string            `json:"license"`
