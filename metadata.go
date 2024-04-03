@@ -59,19 +59,18 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 // ETDWork contains libra metadata for ETD works
 type ETDWork struct {
 	SchemaVersion
-	Degree          string            `json:"degree"`
-	Title           string            `json:"title"`
-	Author          ContributorData   `json:"author"`
-	Advisors        []ContributorData `json:"advisors"`
-	Abstract        string            `json:"abstract"`
-	License         string            `json:"license"`
-	LicenseURL      string            `json:"licenseURL"`
-	Keywords        []string          `json:"keywords"`
-	Language        string            `json:"language"`
-	PublicationDate string            `json:"pubDate"`
-	RelatedURLs     []string          `json:"relatedURLs"`
-	Sponsors        []string          `json:"sponsors"`
-	Notes           string            `json:"notes"`
+	Degree      string            `json:"degree"`
+	Title       string            `json:"title"`
+	Author      ContributorData   `json:"author"`
+	Advisors    []ContributorData `json:"advisors"`
+	Abstract    string            `json:"abstract"`
+	License     string            `json:"license"`
+	LicenseURL  string            `json:"licenseURL"`
+	Keywords    []string          `json:"keywords"`
+	Language    string            `json:"language"`
+	RelatedURLs []string          `json:"relatedURLs"`
+	Sponsors    []string          `json:"sponsors"`
+	Notes       string            `json:"notes"`
 }
 
 // IsAuthor checks if the passed computeID is a work author
