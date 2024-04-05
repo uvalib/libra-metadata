@@ -122,14 +122,13 @@ func dumpAsEtd(buf []byte) {
 	nonEmpty(" license url:   %s\n", m.LicenseURL)
 	nonEmpty(" keywords:      %s\n", strings.Join(m.Keywords, ", "))
 	nonEmpty(" language:      %s\n", m.Language)
-	nonEmpty(" pub date:      %s\n", m.PublicationDate)
 	nonEmpty(" urls:          %s\n", strings.Join(m.RelatedURLs, ", "))
 	nonEmpty(" sponsors:      %s\n", strings.Join(m.Sponsors, ", "))
 	nonEmpty(" notes:         %s\n", m.Notes)
 }
 
 func nonEmpty(format string, value string) {
-	if len(strings.Trim(value, "")) != 0 {
+	if len(strings.Trim(value, " ")) != 0 {
 		fmt.Printf(format, value)
 	}
 }
