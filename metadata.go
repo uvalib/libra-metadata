@@ -71,6 +71,7 @@ type ETDWork struct {
 	RelatedURLs []string          `json:"relatedURLs"`
 	Sponsors    []string          `json:"sponsors"`
 	Notes       string            `json:"notes"`
+	AdminNotes  string            `json:"adminNotes"`
 }
 
 // IsAuthor checks if the passed computeID is a work author
@@ -136,6 +137,7 @@ type OAWork struct {
 	RelatedURLs     []string          `json:"relatedURLs"`
 	Sponsors        []string          `json:"sponsors"`
 	Notes           string            `json:"notes"`
+	AdminNotes      string            `json:"adminNotes"`
 }
 
 // IsAuthor checks if the passed computeID is a work author
