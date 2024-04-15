@@ -59,6 +59,7 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 // ETDWork contains libra metadata for ETD works
 type ETDWork struct {
 	SchemaVersion
+	Department  string            `json:"department"` // sometimes displayed with label plan/program
 	Degree      string            `json:"degree"`
 	Title       string            `json:"title"`
 	Author      ContributorData   `json:"author"`
