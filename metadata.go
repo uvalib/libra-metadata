@@ -53,6 +53,20 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if etdWork.Keywords == nil {
+		etdWork.Keywords = make([]string, 0)
+	}
+	if etdWork.RelatedURLs == nil {
+		etdWork.RelatedURLs = make([]string, 0)
+	}
+	if etdWork.Sponsors == nil {
+		etdWork.Sponsors = make([]string, 0)
+	}
+	if etdWork.Advisors == nil {
+		etdWork.Advisors = make([]ContributorData, 0)
+	}
+
 	return &etdWork, nil
 }
 
@@ -117,6 +131,25 @@ func OAWorkFromBytes(bytes []byte) (*OAWork, error) {
 	if err != nil {
 		return nil, err
 	}
+	if oaWork.Keywords == nil {
+		oaWork.Keywords = make([]string, 0)
+	}
+	if oaWork.Languages == nil {
+		oaWork.Languages = make([]string, 0)
+	}
+	if oaWork.Sponsors == nil {
+		oaWork.Sponsors = make([]string, 0)
+	}
+	if oaWork.RelatedURLs == nil {
+		oaWork.RelatedURLs = make([]string, 0)
+	}
+	if oaWork.Authors == nil {
+		oaWork.Authors = make([]ContributorData, 0)
+	}
+	if oaWork.Contributors == nil {
+		oaWork.Contributors = make([]ContributorData, 0)
+	}
+
 	return &oaWork, nil
 }
 
