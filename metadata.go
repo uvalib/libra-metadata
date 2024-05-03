@@ -23,8 +23,7 @@ type ContributorData struct {
 	ComputeID   string `json:"computeID"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
-	Department  string `json:"department,omitempty"`
-	Program     string `json:"program,omitempty"`
+	Department  string `json:"department,omitempty"` // This will be blank for student ETD author
 	Institution string `json:"institution"`
 	ORCID       string `json:"orcid"`
 }
@@ -73,7 +72,7 @@ func ETDWorkFromBytes(bytes []byte) (*ETDWork, error) {
 // ETDWork contains libra metadata for ETD works
 type ETDWork struct {
 	SchemaVersion
-	Department  string            `json:"department"` // sometimes displayed with label plan/program
+	Program     string            `json:"program"`
 	Degree      string            `json:"degree"`
 	Title       string            `json:"title"`
 	Author      ContributorData   `json:"author"`

@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/uvalib/libra-metadata"
 	"os"
 	"strings"
+
+	librametadata "github.com/uvalib/libra-metadata"
 )
 
 // main entry point
@@ -96,6 +97,7 @@ func dumpAsEtd(buf []byte) {
 	}
 
 	nonEmpty(" version:       %s\n", m.Version)
+	nonEmpty(" degree:        %s\n", m.Program)
 	nonEmpty(" degree:        %s\n", m.Degree)
 	nonEmpty(" title:         %s\n", m.Title)
 
@@ -103,7 +105,6 @@ func dumpAsEtd(buf []byte) {
 	nonEmpty("   cid:         %s\n", m.Author.ComputeID)
 	nonEmpty("   first name:  %s\n", m.Author.FirstName)
 	nonEmpty("   last name:   %s\n", m.Author.LastName)
-	nonEmpty("   program:     %s\n", m.Author.Program)
 	nonEmpty("   institution: %s\n", m.Author.Institution)
 
 	for ix, a := range m.Advisors {
