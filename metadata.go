@@ -205,3 +205,26 @@ func (oa OAWork) Created() time.Time {
 func (oa OAWork) Modified() time.Time {
 	return time.Time{}
 }
+
+// Audit metadata
+type Audit struct {
+	Who       string    `json:"who"`
+	Oid       string    `json:"oid"`
+	Namespace string    `json:"namespace"`
+	FieldName string    `json:"fieldName"`
+	Before    string    `json:"before"`
+	After     string    `json:"after"`
+	EventTime time.Time `json:"eventTime"`
+}
+
+// AuditsFromBytes will create an Audit array from a byte array
+func AuditsFromBytes(bytes []byte) (*[]Audit, error) {
+
+	var audit []Audit
+	err := json.Unmarshal(bytes, &audit)
+	if err != nil {
+		return nil, err
+	}
+
+	return &audit, nil
+}
