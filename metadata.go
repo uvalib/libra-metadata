@@ -104,105 +104,13 @@ func (etd ETDWork) Payload() ([]byte, error) {
 	return json.Marshal(etd)
 }
 
-// Created gets date when the OpenAccess metadata was created in easystore.
+// Created gets date when the ETD metadata was created in easystore.
 func (etd ETDWork) Created() time.Time {
 	return time.Time{}
 }
 
 // Modified gets last modification date of the ETD metadata
 func (etd ETDWork) Modified() time.Time {
-	return time.Time{}
-}
-
-// OAWorkFromBytes will create an OAWork from a byte array
-func OAWorkFromBytes(bytes []byte) (*OAWork, error) {
-	var schema SchemaVersion
-	err := json.Unmarshal(bytes, &schema)
-	if err != nil {
-		return nil, err
-	}
-	if schema.Version != schemaVersion {
-		return nil, ErrSchemaVersion
-	}
-
-	var oaWork OAWork
-	err = json.Unmarshal(bytes, &oaWork)
-	if err != nil {
-		return nil, err
-	}
-	if oaWork.Keywords == nil {
-		oaWork.Keywords = make([]string, 0)
-	}
-	if oaWork.Languages == nil {
-		oaWork.Languages = make([]string, 0)
-	}
-	if oaWork.Sponsors == nil {
-		oaWork.Sponsors = make([]string, 0)
-	}
-	if oaWork.RelatedURLs == nil {
-		oaWork.RelatedURLs = make([]string, 0)
-	}
-	if oaWork.Authors == nil {
-		oaWork.Authors = make([]ContributorData, 0)
-	}
-	if oaWork.Contributors == nil {
-		oaWork.Contributors = make([]ContributorData, 0)
-	}
-
-	return &oaWork, nil
-}
-
-// OAWork contains libra metadata for openAccess works
-type OAWork struct {
-	SchemaVersion
-	ResourceType    string            `json:"resourceType"`
-	Title           string            `json:"title"`
-	Authors         []ContributorData `json:"authors"`
-	Abstract        string            `json:"abstract"`
-	License         string            `json:"license"`
-	LicenseURL      string            `json:"licenseURL"`
-	Languages       []string          `json:"languages"`
-	Keywords        []string          `json:"keywords"`
-	Contributors    []ContributorData `json:"contributors"`
-	Publisher       string            `json:"publisher"`
-	Citation        string            `json:"citation"`
-	PublicationDate string            `json:"pubDate"`
-	RelatedURLs     []string          `json:"relatedURLs"`
-	Sponsors        []string          `json:"sponsors"`
-	Notes           string            `json:"notes"`
-	AdminNotes      string            `json:"adminNotes"`
-}
-
-// IsAuthor checks if the passed computeID is a work author
-func (oa OAWork) IsAuthor(computeID string) bool {
-	isAuthor := false
-	for _, author := range oa.Authors {
-		if author.ComputeID == computeID {
-			isAuthor = true
-			break
-		}
-	}
-	return isAuthor
-}
-
-// MimeType gets the mime type of openAccess metadata
-func (oa OAWork) MimeType() string {
-	return "application/json"
-}
-
-// Payload gets the encoded binary representation of OpenAccess metadata
-func (oa OAWork) Payload() ([]byte, error) {
-	oa.SchemaVersion.Version = schemaVersion
-	return json.Marshal(oa)
-}
-
-// Created gets date when the OpenAccess metadata was created in easystore
-func (oa OAWork) Created() time.Time {
-	return time.Time{}
-}
-
-// Modified gets last modification date of the OpenAccess metadata
-func (oa OAWork) Modified() time.Time {
 	return time.Time{}
 }
 
