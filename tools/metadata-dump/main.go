@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -13,8 +14,10 @@ import (
 func main() {
 
 	var infile string
+	var format string
 
 	flag.StringVar(&infile, "infile", "", "Input file name")
+	flag.StringVar(&format, "format", "json", "Output format (json, text)")
 	flag.Parse()
 
 	// validate required parameters
@@ -29,17 +32,34 @@ func main() {
 		os.Exit(1)
 	}
 
-	dumpAsEtd(buf)
-	fmt.Printf("INFO: terminating normally\n")
-}
-
-func dumpAsEtd(buf []byte) {
-
 	m, err := librametadata.ETDWorkFromBytes(buf)
 	if err != nil {
 		fmt.Printf("ERROR: %s\n", err.Error())
-		return
+		os.Exit(1)
 	}
+
+	switch format {
+	case "json":
+		dumpAsJson(m)
+	case "text":
+		dumpAsText(m)
+	default:
+		fmt.Printf("ERROR: format %s not supported\n", format)
+		os.Exit(1)
+	}
+	fmt.Printf("INFO: terminating normally\n")
+}
+
+func dumpAsJson(m *librametadata.ETDWork) {
+	b, err := json.Marshal(m)
+	if err != nil {
+		fmt.Printf("ERROR: %s\n", err.Error())
+		os.Exit(1)
+	}
+	fmt.Println(string(b))
+}
+
+func dumpAsText(m *librametadata.ETDWork) {
 
 	nonEmpty(" version:       %s\n", m.Version)
 	nonEmpty(" degree:        %s\n", m.Program)
